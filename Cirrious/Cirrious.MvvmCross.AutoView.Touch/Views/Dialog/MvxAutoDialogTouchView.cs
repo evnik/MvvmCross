@@ -15,7 +15,7 @@ using Cirrious.MvvmCross.Dialog.Touch;
 using Cirrious.MvvmCross.ViewModels;
 using CrossUI.Core.Elements.Menu;
 using CrossUI.Touch.Dialog.Elements;
-using MonoTouch.UIKit;
+using UIKit;
 using Cirrious.CrossCore.IoC;
 
 namespace Cirrious.MvvmCross.AutoView.Touch.Views.Dialog
@@ -66,9 +66,9 @@ namespace Cirrious.MvvmCross.AutoView.Touch.Views.Dialog
             this.ShowOptionsMenu(_parentMenu);
         }
 
-        public void RegisterBinding(IMvxUpdateableBinding binding)
+        public void RegisterBinding(object target, IMvxUpdateableBinding binding)
         {
-            BindingContext.RegisterBinding(binding);
+            BindingContext.RegisterBinding(target, binding);
         }
     }
 

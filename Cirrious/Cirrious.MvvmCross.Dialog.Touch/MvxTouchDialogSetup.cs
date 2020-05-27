@@ -10,20 +10,20 @@ using Cirrious.MvvmCross.Dialog.Touch.Target;
 using Cirrious.MvvmCross.Touch.Platform;
 using Cirrious.MvvmCross.Touch.Views.Presenters;
 using CrossUI.Touch.Dialog.Elements;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Dialog.Touch
 {
     public abstract class MvxTouchDialogSetup
         : MvxTouchSetup
     {
-        protected MvxTouchDialogSetup(MvxApplicationDelegate applicationDelegate,
+        protected MvxTouchDialogSetup(IMvxApplicationDelegate applicationDelegate,
                                       IMvxTouchViewPresenter presenter)
             : base(applicationDelegate, presenter)
         {
         }
 
-        protected MvxTouchDialogSetup(MvxApplicationDelegate applicationDelegate, UIWindow window)
+        protected MvxTouchDialogSetup(IMvxApplicationDelegate applicationDelegate, UIWindow window)
             : base(applicationDelegate, window)
         {
         }

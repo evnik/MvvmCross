@@ -13,7 +13,7 @@ using Cirrious.MvvmCross.Binding.Bindings;
 using Cirrious.MvvmCross.Touch.Views;
 using Cirrious.MvvmCross.ViewModels;
 using CrossUI.Touch.Dialog.Elements;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Dialog.Touch
 {
@@ -64,5 +64,29 @@ namespace Cirrious.MvvmCross.Dialog.Touch
         }
 
         #endregion
+    }
+
+    public class MvxDialogViewController<TViewModel>
+        : MvxDialogViewController
+          , IMvxTouchView<TViewModel> where TViewModel : class, IMvxViewModel
+    {
+
+        public MvxDialogViewController(UITableViewStyle style = UITableViewStyle.Grouped,
+                                       RootElement root = null,
+                                       bool pushing = false)
+            : base(style, root, pushing)
+        {
+        }
+
+        public MvxDialogViewController(IntPtr handle)
+            : base(handle)
+        {
+        }
+
+        public new TViewModel ViewModel
+        {
+            get { return (TViewModel)base.ViewModel; }
+            set { base.ViewModel = value; }
+        }
     }
 }

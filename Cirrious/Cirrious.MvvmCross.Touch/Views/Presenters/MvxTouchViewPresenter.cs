@@ -9,14 +9,14 @@ using Cirrious.CrossCore.Exceptions;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Touch.Views.Presenters
 {
     public class MvxTouchViewPresenter
         : MvxBaseTouchViewPresenter
     {
-        private readonly UIApplicationDelegate _applicationDelegate;
+        private readonly IUIApplicationDelegate _applicationDelegate;
         private readonly UIWindow _window;
 
         public virtual UINavigationController MasterNavigationController
@@ -24,7 +24,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
             get; protected set;
         }
 
-        protected virtual UIApplicationDelegate ApplicationDelegate
+        protected virtual IUIApplicationDelegate ApplicationDelegate
         {
             get { return _applicationDelegate; }
         }
@@ -34,7 +34,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
             get { return _window; }
         }
 
-        public MvxTouchViewPresenter(UIApplicationDelegate applicationDelegate, UIWindow window)
+        public MvxTouchViewPresenter(IUIApplicationDelegate applicationDelegate, UIWindow window)
         {
             _applicationDelegate = applicationDelegate;
             _window = window;
@@ -76,7 +76,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
 
 		public virtual void CloseModalViewController()
         {
-            MasterNavigationController.PopViewControllerAnimated(true);
+            MasterNavigationController.PopViewController(true);
         }
 
 		public virtual void Close(IMvxViewModel toClose)
@@ -105,7 +105,7 @@ namespace Cirrious.MvvmCross.Touch.Views.Presenters
                 return;
             }
 
-            MasterNavigationController.PopViewControllerAnimated(true);
+            MasterNavigationController.PopViewController(true);
         }
 
         public override bool PresentModalViewController(UIViewController viewController, bool animated)

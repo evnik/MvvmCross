@@ -6,15 +6,15 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Cirrious.CrossCore;
 using Cirrious.CrossCore.Touch.Platform;
 using Cirrious.CrossCore.Touch.Views;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using Foundation;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Plugins.PictureChooser.Touch
 {
@@ -95,10 +95,10 @@ namespace Cirrious.MvvmCross.Plugins.PictureChooser.Touch
                 if (_maxPixelDimension > 0 &&(image.Size.Height > _maxPixelDimension || image.Size.Width > _maxPixelDimension))
 				{
 					// resize the image
-					image = image.ImageToFitSize(new SizeF(_maxPixelDimension, _maxPixelDimension));
+					image = image.ImageToFitSize(new CGSize(_maxPixelDimension, _maxPixelDimension));
 				}
 
-                using (NSData data = image.AsJPEG((float)(_percentQuality / 100.0)))
+                using (NSData data = image.AsJPEG(_percentQuality / 100f))
                 {
                     var byteArray = new byte[data.Length];
                     Marshal.Copy(data.Bytes, byteArray, 0, Convert.ToInt32(data.Length));
@@ -115,6 +115,7 @@ namespace Cirrious.MvvmCross.Plugins.PictureChooser.Touch
             }
 
             _picker.DismissViewController(true, () => { });
+            _picker.Delegate = null;
             _modalHost.NativeModalViewControllerDisappearedOnItsOwn();
         }
 
@@ -137,6 +138,7 @@ namespace Cirrious.MvvmCross.Plugins.PictureChooser.Touch
             if (_assumeCancelled != null)
                 _assumeCancelled();
             _picker.DismissViewController(true, () => { });
+            _picker.Delegate = null;
             _modalHost.NativeModalViewControllerDisappearedOnItsOwn();
         }
 
@@ -153,27 +155,5 @@ namespace Cirrious.MvvmCross.Plugins.PictureChooser.Touch
                 Mvx.Warning("Tried to clear currently active - but already cleared");
             _currentlyActive = false;
         }
-
-        #region Nested type: CameraDelegate
-
-        private class CameraDelegate : UIImagePickerControllerDelegate
-        {
-            public Action<UIImage, NSDictionary> Callback { get; set; }
-
-            public override void FinishedPickingImage(UIImagePickerController picker, UIImage image,
-                                                      NSDictionary editingInfo)
-            {
-                if (Callback != null)
-                    Callback(image, editingInfo);
-            }
-
-            public override void Canceled(UIImagePickerController picker)
-            {
-                if (Callback != null)
-                    Callback(null, null);
-            }
-        }
-
-        #endregion
     }
 }

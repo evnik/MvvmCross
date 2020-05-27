@@ -3,10 +3,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E042EDD9-E89D-4928-BF4D-27F0FC29CEDA}</ProjectGuid>
-    <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Cirrious.MvvmCross.Touch</RootNamespace>
     <AssemblyName>Cirrious.MvvmCross.Touch</AssemblyName>
@@ -27,24 +25,24 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <NoStdLib>True</NoStdLib>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>False</Optimize>
     <OutputPath>..\..\bin\Release\Mvx\Touch\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
     <DefineConstants>MONOTOUCH</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="monotouch">
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.MonoTouch.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Platform\IMvxApplicationDelegate.cs" />
     <Compile Include="Views\IMvxCanCreateTouchView.cs" />
     <Compile Include="Views\IMvxCurrentRequest.cs" />
     <Compile Include="Platform\IMvxTouchPlatformProperties.cs" />
@@ -78,6 +76,7 @@
     <Compile Include="Platform\MvxTouchSetup.cs" />
     <Compile Include="Views\MvxCollectionViewController.cs" />
     <Compile Include="Views\MvxViewControllerExtensionMethods.cs" />
+    <Compile Include="Views\MvxFromStoryboardAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
@@ -101,7 +100,7 @@
       <Name>Cirrious.MvvmCross.Binding</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cirrious.MvvmCross.Localization\Cirrious.MvvmCross.Localization.csproj">
-      <Project>{d89351c1-d48f-4ad0-a0b9-353a93425ab7}</Project>
+      <Project>{D89351C1-D48F-4AD0-A0B9-353A93425AB7}</Project>
       <Name>Cirrious.MvvmCross.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cirrious.MvvmCross\Cirrious.MvvmCross.csproj">
@@ -110,4 +109,5 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

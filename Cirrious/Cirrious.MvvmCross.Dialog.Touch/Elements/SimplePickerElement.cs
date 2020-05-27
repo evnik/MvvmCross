@@ -7,13 +7,13 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Globalization;
 using Cirrious.CrossCore.Converters;
+using CoreGraphics;
 using CrossUI.Touch.Dialog;
 using CrossUI.Touch.Dialog.Elements;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Dialog.Touch.Elements
 {
@@ -77,7 +77,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
 
         public virtual UIPickerView CreatePicker()
         {
-            var picker = new UIPickerView(RectangleF.Empty)
+            var picker = new UIPickerView(CGRect.Empty)
                 {
                     AutoresizingMask = UIViewAutoresizing.FlexibleWidth,
                     Model = new SimplePickerViewModel(this),
@@ -86,10 +86,10 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
             return picker;
         }
 
-        private static RectangleF PickerFrameWithSize(SizeF size)
+        private static CGRect PickerFrameWithSize(CGSize size)
         {
             var screenRect = UIScreen.MainScreen.ApplicationFrame;
-            float fY = 0, fX = 0;
+            nfloat fY = 0, fX = 0;
 
             switch (UIApplication.SharedApplication.StatusBarOrientation)
             {
@@ -106,10 +106,10 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
                     break;
             }
 
-            return new RectangleF(fX, fY, size.Width, size.Height);
+            return new CGRect(fX, fY, size.Width, size.Height);
         }
 
-        private string GetString(int row)
+        private string GetString(nint row)
         {
             if (Entries == null)
                 return string.Empty;
@@ -117,7 +117,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
             if (row >= Entries.Count)
                 return string.Empty;
 
-            var whichObject = Entries[row];
+            var whichObject = Entries[(int)row];
             return ConvertToString(whichObject);
         }
 
@@ -137,12 +137,12 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
                 _owner = owner;
             }
 
-            public override int GetComponentCount(UIPickerView picker)
+            public override nint GetComponentCount(UIPickerView picker)
             {
                 return 1;
             }
 
-            public override int GetRowsInComponent(UIPickerView picker, int component)
+            public override nint GetRowsInComponent(UIPickerView picker, nint component)
             {
                 if (_owner.Entries == null)
                     return 0;
@@ -150,27 +150,27 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
                 return _owner.Entries.Count;
             }
 
-            public override string GetTitle(UIPickerView picker, int row, int component)
+            public override string GetTitle(UIPickerView picker, nint row, nint component)
             {
                 return _owner.GetString(row) ?? string.Empty;
             }
 
-            public override float GetComponentWidth(UIPickerView picker, int component)
+            public override nfloat GetComponentWidth(UIPickerView picker, nint component)
             {
                 // TODO - need to get this better (currently just using a fixed value like in http://weblogs.asp.net/wallym/archive/2010/01/07/uipicker-in-the-iphone-with-monotouch.aspx)
                 return 300.0f;
             }
 
-            public override float GetRowHeight(UIPickerView picker, int component)
+            public override nfloat GetRowHeight(UIPickerView picker, nint component)
             {
                 // TODO - need to get this better (currently just using a fixed value like in http://weblogs.asp.net/wallym/archive/2010/01/07/uipicker-in-the-iphone-with-monotouch.aspx)
                 return 40.0f;
             }
 
-            public override void Selected(UIPickerView picker, int row, int component)
+            public override void Selected(UIPickerView picker, nint row, nint component)
             {
                 // TODO - update the value here...
-                _owner.OnUserValueChanged(_owner.Entries[row]);
+                _owner.OnUserValueChanged(_owner.Entries[(int)row]);
             }
         }
 
@@ -186,7 +186,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
             public override void DidRotate(UIInterfaceOrientation fromInterfaceOrientation)
             {
                 base.DidRotate(fromInterfaceOrientation);
-                _container._picker.Frame = PickerFrameWithSize(_container._picker.SizeThatFits(SizeF.Empty));
+                _container._picker.Frame = PickerFrameWithSize(_container._picker.SizeThatFits(CGSize.Empty));
             }
 
             public bool Autorotate { get; set; }
@@ -206,7 +206,7 @@ namespace Cirrious.MvvmCross.Dialog.Touch.Elements
                     Autorotate = dvc.Autorotate
                 };
             _picker = CreatePicker();
-            _picker.Frame = PickerFrameWithSize(_picker.SizeThatFits(SizeF.Empty));
+            _picker.Frame = PickerFrameWithSize(_picker.SizeThatFits(CGSize.Empty));
 
             if (Entries != null)
             {

@@ -6,21 +6,21 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using Windows.UI.Xaml.Controls;
 using Cirrious.CrossCore;
 using Cirrious.CrossCore.Exceptions;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.ViewModels;
 using Cirrious.MvvmCross.Views;
+using Cirrious.MvvmCross.WindowsCommon.Platform;
 
 namespace Cirrious.MvvmCross.WindowsCommon.Views
 {
     public class MvxWindowsViewPresenter
         : IMvxWindowsViewPresenter
     {
-        private readonly Frame _rootFrame;
+        private readonly IMvxWindowsFrame _rootFrame;
 
-        public MvxWindowsViewPresenter(Frame rootFrame)
+        public MvxWindowsViewPresenter(IMvxWindowsFrame rootFrame)
         {
             _rootFrame = rootFrame;
         }
@@ -31,7 +31,11 @@ namespace Cirrious.MvvmCross.WindowsCommon.Views
             {
                 var requestTranslator = Mvx.Resolve<IMvxViewsContainer>();
                 var viewType = requestTranslator.GetViewType(request.ViewModelType);
-                _rootFrame.Navigate(viewType, request);
+
+                var converter = Mvx.Resolve<IMvxNavigationSerializer>();
+                var requestText = converter.Serializer.SerializeObject(request);
+
+                _rootFrame.Navigate(viewType, requestText); //Frame won't allow serialization of it's nav-state if it gets a non-simple type as a nav param
             }
             catch (Exception exception)
             {

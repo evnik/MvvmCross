@@ -7,8 +7,14 @@
 
 using System;
 using System.Reflection;
-using MonoMac.Foundation;
+
+#if __UNIFIED__
+using AppKit;
+using Foundation;
+#else
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+#endif
 
 namespace Cirrious.MvvmCross.Binding.Mac.Target
 {
@@ -25,17 +31,27 @@ namespace Cirrious.MvvmCross.Binding.Mac.Target
 			if (picker == null)
 				return;
 
-			//var timespan = (TimeSpan)value;
+			var time = (DateTime)value;
+
+			// Do this in a way that does not mess up the date, grab current date, then modify the time
+			var pickerDate = GetLocalTime (DatePicker);
+			var date = new DateTime (pickerDate.Year, pickerDate.Month, pickerDate.Day,
+				time.Hour, time.Minute, time.Second, DateTimeKind.Local);
+
+
 			//var date = new DateTime (2000, 1, 1).Add (timespan);
-			picker.DateValue = (DateTime)value;
+			picker.DateValue = (NSDate)(date);
 		}
 
 		protected override object GetValueFrom(NSDatePicker view)
 		{
-			var components = NSCalendar.CurrentCalendar.Components(
-				NSCalendarUnit.Hour | NSCalendarUnit.Minute | NSCalendarUnit.Second, 
-				view.DateValue);
-			return new TimeSpan(components.Hour, components.Minute, components.Second);
+			var date = GetLocalTime (view);
+			return date.TimeOfDay;
+
+//			var components = NSCalendar.CurrentCalendar.Components(
+//				NSCalendarUnit.Hour | NSCalendarUnit.Minute | NSCalendarUnit.Second, 
+//				view.DateValue);
+//            return new TimeSpan((int)components.Hour, (int)components.Minute, (int)components.Second);
 		}
 
 		public override Type TargetType

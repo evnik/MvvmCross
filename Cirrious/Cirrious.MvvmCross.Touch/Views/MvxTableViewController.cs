@@ -9,8 +9,8 @@ using System;
 using Cirrious.CrossCore.Touch.Views;
 using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.ViewModels;
-using MonoTouch.Foundation;
-using MonoTouch.UIKit;
+using Foundation;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Touch.Views
 {
@@ -81,6 +81,21 @@ namespace Cirrious.MvvmCross.Touch.Views
         : MvxTableViewController
           , IMvxTouchView<TViewModel> where TViewModel : class, IMvxViewModel
     {
+        protected MvxTableViewController(UITableViewStyle style = UITableViewStyle.Plain)
+            : base(style)
+        {
+        }
+
+        protected MvxTableViewController(IntPtr handle)
+            : base(handle)
+        {
+        }
+
+        protected MvxTableViewController(string nibName, NSBundle bundle)
+            : base(nibName, bundle)
+        {
+        }
+
         public new TViewModel ViewModel
         {
             get { return (TViewModel)base.ViewModel; }

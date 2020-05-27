@@ -7,8 +7,14 @@
 
 using System;
 using System.Reflection;
-using MonoMac.Foundation;
+
+#if __UNIFIED__
+using AppKit;
+using Foundation;
+#else
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+#endif
 
 namespace Cirrious.MvvmCross.Binding.Mac.Target
 {
@@ -19,13 +25,15 @@ namespace Cirrious.MvvmCross.Binding.Mac.Target
 		{
 		}
 
-		protected override void SetValueImpl (object target, object value)
+		protected override void SetValueImpl(object target, object value)
 		{
 			var datePicker = DatePicker;
 			if (datePicker == null)
 				return;
 
-			datePicker.DateValue = (DateTime)value;
+			// sets DateValue to the GMT value of DateTime, but the UI will show the correct time
+			// Note: Probably we should not use DateTime, but instead DateTimeOffset or something else that identifies timezone
+			datePicker.DateValue = (NSDate)((DateTime)value);
 		}
 
 		public override Type TargetType
@@ -35,7 +43,7 @@ namespace Cirrious.MvvmCross.Binding.Mac.Target
 
 		protected override object GetValueFrom(NSDatePicker view)
 		{
-			return ((DateTime) view.DateValue).Date;
+			return GetLocalTime (view);
 		}
 
 		protected override object MakeSafeValue(object value)

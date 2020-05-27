@@ -6,12 +6,9 @@
 // Project Lead - Stuart Lodge, @slodge, me@slodge.com
 
 using System;
-using System.Reflection;
 using System.Threading;
 using Cirrious.CrossCore.Core;
-using Cirrious.CrossCore.Exceptions;
-using Cirrious.CrossCore.Platform;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Touch.Views
 {
@@ -32,6 +29,11 @@ namespace Cirrious.MvvmCross.Touch.Views
             else
                 UIApplication.SharedApplication.BeginInvokeOnMainThread(() => ExceptionMaskedAction(action));
             return true;
+        }
+
+        protected override bool IsInMainThread()
+        {
+            return _uiSynchronizationContext == SynchronizationContext.Current;
         }
     }
 }

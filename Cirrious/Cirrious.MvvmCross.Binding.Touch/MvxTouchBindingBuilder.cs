@@ -12,7 +12,7 @@ using Cirrious.MvvmCross.Binding.BindingContext;
 using Cirrious.MvvmCross.Binding.Bindings.Target.Construction;
 using Cirrious.MvvmCross.Binding.Touch.Target;
 using Cirrious.MvvmCross.Binding.Touch.Views;
-using MonoTouch.UIKit;
+using UIKit;
 
 namespace Cirrious.MvvmCross.Binding.Touch
 {
@@ -37,58 +37,67 @@ namespace Cirrious.MvvmCross.Binding.Touch
             base.FillTargetFactories(registry);
 
             registry.RegisterCustomBindingFactory<UIControl>("TouchUpInside",
-                                                        view =>
-                                                        new MvxUIControlTouchUpInsideTargetBinding(view));
+                                                             view =>
+                                                             new MvxUIControlTouchUpInsideTargetBinding(view));
             registry.RegisterCustomBindingFactory<UIView>("Visibility",
-                                                        view =>
-                                                        new MvxUIViewVisibilityTargetBinding(view));
+                                                          view =>
+                                                          new MvxUIViewVisibilityTargetBinding(view));
             registry.RegisterCustomBindingFactory<UIView>("Visible",
-                                                        view =>
-                                                        new MvxUIViewVisibleTargetBinding(view));
+                                                          view =>
+                                                          new MvxUIViewVisibleTargetBinding(view));
             registry.RegisterCustomBindingFactory<UIView>("Hidden",
-                                                        view =>
-                                                        new MvxUIViewHiddenTargetBinding(view));
-            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISliderValueTargetBinding), typeof(UISlider),
-                                               "Value");
+                                                          view =>
+                                                          new MvxUIViewHiddenTargetBinding(view));
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISliderValueTargetBinding),
+                                                        typeof(UISlider),
+                                                        "Value");
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISegmentedControlSelectedSegmentTargetBinding),
+                                                        typeof(UISegmentedControl),
+                                                        "SelectedSegment");
             registry.RegisterPropertyInfoBindingFactory(typeof (MvxUIDatePickerDateTargetBinding),
-                                               typeof (UIDatePicker),
-                                               "Date");
+                                                        typeof (UIDatePicker),
+                                                        "Date");
             registry.RegisterCustomBindingFactory<UITextField>("ShouldReturn",
                                                                textField => new MvxUITextFieldShouldReturnTargetBinding(textField));
-            registry.RegisterCustomBindingFactory<UIDatePicker>(
-                                               "Time",
-                                               view => new MvxUIDatePickerTimeTargetBinding(view, (typeof(UIDatePicker).GetProperty("Date"))));
+            registry.RegisterCustomBindingFactory<UIDatePicker>("Time",
+                                                                view => new MvxUIDatePickerTimeTargetBinding(view, (typeof(UIDatePicker).GetProperty("Date"))));
 
-            registry.RegisterCustomBindingFactory<UILabel>(
-                                               "Text",
-                                               view => new MvxUILabelTextTargetBinding(view));
-            registry.RegisterCustomBindingFactory<UITextField>(
-                                               "Text",
-                                               view => new MvxUITextFieldTextTargetBinding(view));
-            registry.RegisterCustomBindingFactory<UITextView>(
-                                               "Text",
-                                               view => new MvxUITextViewTextTargetBinding(view));
-            registry.RegisterCustomBindingFactory<UIView>(
-                                                "LayerBorderWidth",
-                                                view => new MvxUIViewLayerBorderWidthTargetBinding(view));
-            registry.RegisterPropertyInfoBindingFactory(typeof (MvxUISwitchOnTargetBinding), typeof (UISwitch), "On");
-            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISearchBarTextTargetBinding), typeof(UISearchBar), "Text");
+            registry.RegisterCustomBindingFactory<UILabel>("Text",
+                                                           view => new MvxUILabelTextTargetBinding(view));
+            registry.RegisterCustomBindingFactory<UITextField>("Text",
+                                                               view => new MvxUITextFieldTextTargetBinding(view));
+            registry.RegisterCustomBindingFactory<UITextView>("Text",
+                                                              view => new MvxUITextViewTextTargetBinding(view));
+            registry.RegisterCustomBindingFactory<UIView>("LayerBorderWidth",
+                                                          view => new MvxUIViewLayerBorderWidthTargetBinding(view));
+            registry.RegisterPropertyInfoBindingFactory(typeof (MvxUISwitchOnTargetBinding),
+                                                        typeof (UISwitch),
+                                                        "On");
+            registry.RegisterPropertyInfoBindingFactory(typeof(MvxUISearchBarTextTargetBinding),
+                                                        typeof(UISearchBar),
+                                                        "Text");
 
             registry.RegisterCustomBindingFactory<UIButton>("Title",
-                                                        (button) => new MvxUIButtonTitleTargetBinding(button));
+                                                            button => new MvxUIButtonTitleTargetBinding(button));
             registry.RegisterCustomBindingFactory<UIButton>("DisabledTitle",
-                                                        (button) => new MvxUIButtonTitleTargetBinding(button, UIControlState.Disabled));
+                                                            button => new MvxUIButtonTitleTargetBinding(button, UIControlState.Disabled));
             registry.RegisterCustomBindingFactory<UIButton>("HighlightedTitle",
-                                                        (button) => new MvxUIButtonTitleTargetBinding(button, UIControlState.Highlighted));
+                                                            button => new MvxUIButtonTitleTargetBinding(button, UIControlState.Highlighted));
             registry.RegisterCustomBindingFactory<UIButton>("SelectedTitle",
-                                                        (button) => new MvxUIButtonTitleTargetBinding(button, UIControlState.Selected));
-            registry.RegisterCustomBindingFactory<UIView>("Tap", view => new MvxUIViewTapTargetBinding(view));
-            registry.RegisterCustomBindingFactory<UIView>("DoubleTap", view => new MvxUIViewTapTargetBinding(view, 2, 1));
-            registry.RegisterCustomBindingFactory<UIView>("TwoFingerTap", view => new MvxUIViewTapTargetBinding(view, 1, 2));
+                                                            button => new MvxUIButtonTitleTargetBinding(button, UIControlState.Selected));
+            registry.RegisterCustomBindingFactory<UIView>("Tap",
+                                                          view => new MvxUIViewTapTargetBinding(view));
+            registry.RegisterCustomBindingFactory<UIView>("DoubleTap",
+                                                          view => new MvxUIViewTapTargetBinding(view, 2, 1));
+            registry.RegisterCustomBindingFactory<UIView>("TwoFingerTap",
+                                                          view => new MvxUIViewTapTargetBinding(view, 1, 2));
             /*
-            registry.RegisterCustomBindingFactory<UIView>("TwoFingerDoubleTap", view => new MvxUIViewTapTargetBinding(view, 2, 2));
-            registry.RegisterCustomBindingFactory<UIView>("ThreeFingerTap", view => new MvxUIViewTapTargetBinding(view, 1, 3));
-            registry.RegisterCustomBindingFactory<UIView>("ThreeFingerDoubleTap", view => new MvxUIViewTapTargetBinding(view, 3, 3));
+            registry.RegisterCustomBindingFactory<UIView>("TwoFingerDoubleTap",
+                                                          view => new MvxUIViewTapTargetBinding(view, 2, 2));
+            registry.RegisterCustomBindingFactory<UIView>("ThreeFingerTap",
+                                                          view => new MvxUIViewTapTargetBinding(view, 1, 3));
+            registry.RegisterCustomBindingFactory<UIView>("ThreeFingerDoubleTap",
+                                                          view => new MvxUIViewTapTargetBinding(view, 3, 3));
             */
 
             if (_fillRegistryAction != null)
@@ -124,6 +133,7 @@ namespace Cirrious.MvvmCross.Binding.Touch
             registry.AddOrOverwrite(typeof (UIProgressView), "Progress");
             registry.AddOrOverwrite(typeof (IMvxImageHelper<UIImage>), "ImageUrl");
             registry.AddOrOverwrite(typeof (MvxImageViewLoader), "ImageUrl");
+            registry.AddOrOverwrite(typeof (UISegmentedControl), "SelectedSegment");
 
             if (_fillBindingNamesAction != null)
                 _fillBindingNamesAction(registry);

@@ -9,8 +9,14 @@ using System;
 using System.Reflection;
 using Cirrious.CrossCore.Platform;
 using Cirrious.MvvmCross.Binding.Bindings.Target;
-using MonoMac.Foundation;
+
+#if __UNIFIED__
+using AppKit;
+using Foundation;
+#else
 using MonoMac.AppKit;
+using MonoMac.Foundation;
+#endif
 
 namespace Cirrious.MvvmCross.Binding.Mac.Target
 {
@@ -52,6 +58,12 @@ namespace Cirrious.MvvmCross.Binding.Mac.Target
 
 		protected abstract object GetValueFrom(NSDatePicker view);
 
+		protected DateTime GetLocalTime(NSDatePicker view)
+		{
+			var tzInfo = TimeZoneInfo.Local;
+			return TimeZoneInfo.ConvertTimeFromUtc ((DateTime)view.DateValue, tzInfo);
+		}
+	
 		public override MvxBindingMode DefaultMode
 		{
 			get { return MvxBindingMode.TwoWay; }
